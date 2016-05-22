@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<rss version="2.0">
+<channel>
+    <title>CANAL RSS</title>
+    <description>Comentarios puestos por los usuarios</description>
+
+    {% for h in lista %}
+    <item>
+        <title>{{ h.com.name }}</title>
+        <link> http://localhost:8000/alojamientos/{{ h.com.id }}</link>
+        <description>{{ h.text }}</description>
+    </item>
+    {% endfor %}
+</channel>
+
+</rss>

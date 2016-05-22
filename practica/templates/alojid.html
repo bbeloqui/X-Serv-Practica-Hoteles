@@ -1,0 +1,137 @@
+{% load staticfiles %}
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC >
+<html>
+
+    <link rel="shortcut icon" href="{% static "images/icono.ico" %}"/>
+
+<head>
+    <link rel="StyleSheet" href="{% static "style.css" %}" type="text/css" media="all" />
+<title>
+    ﻿Madrid Hoteles
+</title>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<style>
+  body{
+    background-color: {{ color }}
+  }
+  body{
+    font-size: {{size}}
+  }
+</style>
+<div class="container">
+
+    <div class="titleblock">
+        {% if user %}
+            <p> Hola  {{ user }}</p>
+            <a href='admin/logout/'><button>Logout</button></a><br>
+        {% else %}
+            <form action="accounts/profile/" method="post" accept-charset="utf-8">
+                {% csrf_token %}
+                <label for="username">Username</label><input type="text" name="username" value="" />
+                <br>
+                <label for="password">Password</label><input type="password" name="password" value=""  />
+                <p><input type="submit" value="Login"></p>
+            </form>
+        {% endif %}
+
+    </div>
+
+    <ul class="navbar">
+		 <li><a href="http://localhost:8000/" class="nav">Inicio</a></li>
+		 <li><a href="http://localhost:8000/alojamientos" class="nav">Todos</a></li>
+		 <li><a href="http://localhost:8000/about" class="nav">About</a></li>
+    </ul>
+</div>
+<div class="rightcontainer">
+
+	<div class="rightbox">
+	  <h2><img src="{% static "images/fleche.png" %}"alt="arrow" />&nbsp;Usuarios</h2>
+      <ul>
+          {% for h in listausers %}
+            {% if h.title == condicion %}
+                <li><a href= "http://localhost:8000/{{ h.user }}">Pagina de {{h.id}}</a></li>
+            {% else %}
+                <li><a href= "http://localhost:8000/{{ h.user }}">{{h.title}}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+	</div>
+</div>
+
+<div class="content">
+    Ver en:
+    {% for h in h %}
+    <a href="http://localhost:8000/alojamientos/{{ h.id }}/xmlingles"><button>Inglés</button></a>
+
+    <a href="http://localhost:8000/alojamientos/{{ h.id }}/xmlfrances"><button>Francés</button></a>
+     {% endfor %}
+    <br>
+    </br>
+    {% if user %}
+      ¿Tu Opinion?
+      <form action="" method="post" accept-charset="utf-8">
+      {% csrf_token %}
+        <textarea name="comentarios"></textarea>
+        <p><input id="comentario" name="comentario" type="submit" value="Send"></p>
+      </form>
+      <br>
+
+    {% endif %}
+    <div>
+
+    {% if user %}
+        <form action="" method="post" accept-charset="utf-8">
+    {% csrf_token %}
+        <p><input id="quiero" name="quiero"  type="submit" value="Lo Quiero"></p>
+        </form>
+    {% endif %}
+
+    </div>
+
+    <h2><img src="{% static "images/puce.png" %}"><li><a href= "{{ url }}">{{name}}</a></li></img></h2>
+    <li>{{ body }} </li>
+    <li>{{ address }}</li>
+    <li> {{type}}</li>
+    <li> {{stars}}</li>
+    {% for h in lista %}
+
+        {% if h.source != condicion %}
+        <img src="{{ h.url }}"></img>
+        {% else %}
+        <li> No hay imagenes para mostrar </li>
+        {% endif %}
+    {% endfor %}
+
+
+    <form action="" method="post" accept-charset="utf-8">
+        {% csrf_token %}
+        <input id="like" name="like" type="submit" value="+1">
+    </form>
+
+    {% for lista in h %}
+    Tiene {{lista.puntuacion}} me gusta
+    {% endfor %}
+    <br></br>
+
+
+    Comentarios:
+    <br/>
+    {% for h in comentarios %}
+        <p> <li>{{ h.text }} <br></li> </p>
+    {% endfor %}
+</div>
+
+<div class="footer">
+        <p>Esta aplicación utiliza datos del portal de datos abiertos de la ciudad de Madrid</p>
+        <p><a href="http://www.esmadrid.com/opendata/alojamientos_v1_es.xml">Datos XML</a></p>
+        <p><a href="http://bit.ly/1T24Zsq">Descripción</a></p>
+</div>
+
+</div>
+</body>
+</html>

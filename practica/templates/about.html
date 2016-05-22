@@ -1,0 +1,97 @@
+{% load staticfiles %}
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC >
+<html>
+
+    <link rel="shortcut icon" href="{% static "images/icono.ico" %}"/>
+
+<head>
+    <link rel="StyleSheet" href="{% static "style.css" %}" type="text/css" media="all" />
+<title>
+    ﻿Madrid Hoteles
+</title>
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<style>
+  body{
+    background-color: {{ color }}
+  }
+  body{
+    font-size: {{size}}
+  }
+</style>
+<div class="container">
+
+    <div class="titleblock">
+        {% if user %}
+            <p> Hola  {{ user }}</p>
+            <a href='admin/logout/'><button>Logout</button></a><br>
+        {% else %}
+            <form action="accounts/profile/" method="post" accept-charset="utf-8">
+                {% csrf_token %}
+                <label for="username">Username</label><input type="text" name="username" value="" />
+                <br>
+                <label for="password">Password</label><input type="password" name="password" value=""  />
+                <p><input type="submit" value="Login"></p>
+            </form>
+        {% endif %}
+
+    </div>
+
+
+    <ul class="navbar">
+		 <li><a href="http://localhost:8000/" class="nav">Inicio</a></li>
+		 <li><a href="http://localhost:8000/alojamientos" class="nav">Todos</a></li>
+		 <li><a href="http://localhost:8000/about" class="nav">About</a></li>
+    </ul>
+</div>
+
+<div class="rightcontainer">
+
+	<div class="rightbox">
+	  <h2><img src="{% static "images/fleche.png" %}"alt="arrow" />&nbsp;Usuarios</h2>
+      <ul>
+          {% for h in listausers %}
+            {% if h.title == condicion %}
+                <li><a href= "{{ h.user }}">Pagina de {{h.id}}</a></li>
+            {% else %}
+                <li><a href= "{{ h.user }}">{{h.title}}</a></li>
+            {% endif %}
+          {% endfor %}
+        </ul>
+	</div>
+</div>
+
+<div class="content">
+     <p><strong>Práctica realizada por Borja Beloqui Jiménez ||
+         Grado en Sistemas de Telecomunicacion
+     </strong></p>
+     <p> La práctica consta de bajar la informacion de un XML de la página de hoteles de madrid,
+         parsear el XML por la informacion que nos interesa y guardarla en una base de datos.
+         Una vez guardada lo que hacemos es extraerla de la base de datos y componer nuestra pagina de hoteles.
+     </p>
+     <p>En la practica podemos ver los hoteles que tienen comentario(pagina principal) y si pinchamos en todos veremos
+        todos los hoteles, en esta pagina podremos filtrar por diferentes aspectos para facilitar la busqueda de nuestro
+        hotel deseado.Pinchando en el nombre de un hotel podremos ver su pagina y
+        toda la informacion que necesitemos sobre dicho hotel.
+    </p>
+    <p>Podremos tener cuenta en esta pagina como la que aparece(borja y pepe), al tener cuenta en la pagina nos permitira
+       poner comentario en la pagina propia del hotel, podremos seleccionarlo para que aparezca en nuestra pagina personal
+       podremos tambien selecionar el color de fondo el tamaño de letra
+       e incluso el nombre de nuestra pagina(cada uno de su pagina privada). También podremos selecionar el idioma en el que queremos
+       ver los hoteles(aunque no estemos registrados)
+   </p>
+</div>
+
+<div class="footer">
+        <p>Esta aplicación utiliza datos del portal de datos abiertos de la ciudad de Madrid</p>
+        <p><a href="http://www.esmadrid.com/opendata/alojamientos_v1_es.xml">Datos XML</a></p>
+        <p><a href="http://bit.ly/1T24Zsq">Descripción</a></p>
+</div>
+
+
+</body>
+</html>
